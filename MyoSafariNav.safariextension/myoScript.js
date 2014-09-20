@@ -2,69 +2,55 @@
 
   Myo.start();
   Myo.lock();
-  var eventHappening = false;
   var hasFocus = false;
 
   var hasFocus = function(){
     console.dir(document);
-    console.log(document.hasFocus());
+    console.log(this + 'hasFocus: '+ document.hasFocus());
     return document.hasFocus();
   }.call();
 
-  Myo.on('pose', function(pose){
-    if(eventHappening || Myo.isLocked || !hasFocus){
-      return;
-    }
-    // console.log(pose);
-    eventHappening = true;
-    setTimeout(function(){
-      eventHappening = false;
-    }, 25);
-  });
-
   Myo.on('thumb_to_pinky', function(){
-    if(eventHappening || !hasFocus){
+    if(!hasFocus){
       return;
     }
     if(!Myo.isLocked){
       resetTimeout();
-      window.scrollBy(0,200);
+      window.scrollBy(0,250);
       return;
     }
+
     Myo.vibrate('short');
     Myo.unlock();
     resetTimeout();
+
   });
 
   Myo.on('spread', function(){
-    if(eventHappening || Myo.isLocked || !hasFocus){
+    if(Myo.isLocked || !hasFocus){
       return;
     }
-    window.scrollBy(0,-200);
+    window.scrollBy(0,-250);
     resetTimeout();
     return;
   });
 
-  Myo.on('arm_lost', function() {
-    console.log('ARM LOST!!');
-  });
-
   Myo.on('fist', function(){
-    if(eventHappening || Myo.isLocked || !hasFocus){
+    if(Myo.isLocked || !hasFocus){
       return;
     }
     location.reload();
   });
 
   Myo.on('wave_out', function() {
-    if(eventHappening || Myo.isLocked || !hasFocus){
+    if(Myo.isLocked || !hasFocus){
       return;
     }
     window.history.forward();
   });
 
   Myo.on('wave_in', function() {
-    if(eventHappening || Myo.isLocked || !hasFocus){
+    if(Myo.isLocked || !hasFocus){
       return;
     }
     window.history.back();
@@ -81,5 +67,9 @@
       Myo.vibrate('long');
     }, 3500);
   }
+
+  Myo.on('arm_lost', function() {
+    console.log('ARM LOST!!'); //WTF
+  });
 
 }).call(this);
