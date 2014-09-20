@@ -21,4 +21,7 @@ Navigate your browser using your Myo armband from [Thalmic Labs](https://github.
 ###Wave right
  - Go forward
 
+###Note:
+ - No action for > 3.5s and it stops listening.
+
 Hit me up with suggestions [martin@mgingras.ca](mailto:martin@mgingras.ca)
